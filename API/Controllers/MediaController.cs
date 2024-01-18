@@ -15,7 +15,7 @@ namespace API.Controllers
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
         // Endpoint para obter todos os usuários
-        [HttpGet("Listar")]
+        [HttpGet("listar")]
         public ActionResult<IEnumerable<Usuario>> GetUsuarios()
         {
             try
@@ -58,7 +58,7 @@ namespace API.Controllers
         }
 
         // Endpoint para calcular a média de renda por raça
-        [HttpGet("Calcular_media")]
+        [HttpGet("calcularMedia")]
         public IActionResult CalcularMedia()
         {
             try
@@ -88,40 +88,6 @@ namespace API.Controllers
 
                         // Retorna a lista de médias como resposta HTTP 200 (OK)
                         return Ok(medias);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Retorna uma resposta HTTP 400 (BadRequest) com a mensagem de erro da exceção
-                return BadRequest(ex.Message);
-            }
-        }
-        // Endpoint para deletar um usuário por ID
-        [HttpDelete("Deletar")]
-        public IActionResult DeleteUsuario(int id)
-        {
-            try
-            {
-                // Abre uma conexão com o banco de dados PostgreSQL
-                using (var connection = new NpgsqlConnection(_connectionString))
-                {
-                    connection.Open();
-
-                    // Exclui um usuário da tabela
-                    using (var command = new NpgsqlCommand("DELETE FROM censo.usuarios WHERE id = @id", connection))
-                    {
-                        // Adiciona parâmetro para o ID à consulta SQL
-                        command.Parameters.AddWithValue("@id", id);
-
-                        // Executa a consulta e verifica se alguma linha foi afetada
-                        var rowsAffected = command.ExecuteNonQuery();
-
-                        if (rowsAffected == 0)
-                            return NotFound(); // Retorna uma resposta HTTP 404 (NotFound) se nenhum usuário for encontrado com o ID fornecido
-
-                        // Retorna uma resposta HTTP 204 (NoContent) indicando sucesso sem conteúdo adicional
-                        return NoContent();
                     }
                 }
             }

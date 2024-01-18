@@ -20,7 +20,7 @@ namespace API.Controllers
         }
 
         // Endpoint para criar um novo usuário
-        [HttpPost("NovoUsuario")]
+        [HttpPost("novoUsuario")]
         public IActionResult PostUsuario([FromBody] Usuario usuario)
         {
             try
@@ -55,7 +55,7 @@ namespace API.Controllers
         }
 
         // Endpoint para obter um usuário específico por ID
-        [HttpGet("Busca por ID")]
+        [HttpGet("buscaPorID")]
         public ActionResult<Usuario> GetUsuario(int id)
         {
             try
@@ -102,7 +102,7 @@ namespace API.Controllers
         }
 
         // Endpoint para atualizar um usuário existente
-        [HttpPut("Update")]
+        [HttpPut("update")]
         public IActionResult PutUsuario(int id, [FromBody] Usuario usuario)
         {
             try
@@ -120,6 +120,40 @@ namespace API.Controllers
                         command.Parameters.AddWithValue("@nome", usuario.Nome);
                         command.Parameters.AddWithValue("@raca", usuario.Raca);
                         command.Parameters.AddWithValue("@renda", usuario.Renda);
+
+                        // Executa a consulta e verifica se alguma linha foi afetada
+                        var rowsAffected = command.ExecuteNonQuery();
+
+                        if (rowsAffected == 0)
+                            return NotFound(); // Retorna uma resposta HTTP 404 (NotFound) se nenhum usuário for encontrado com o ID fornecido
+
+                        // Retorna uma resposta HTTP 204 (NoContent) indicando sucesso sem conteúdo adicional
+                        return NoContent();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Retorna uma resposta HTTP 400 (BadRequest) com a mensagem de erro da exceção
+                return BadRequest(ex.Message);
+            }
+        }
+        // Endpoint para deletar um usuário por ID
+        [HttpDelete("deletar")]
+        public IActionResult DeleteUsuario(int id)
+        {
+            try
+            {
+                // Abre uma conexão com o banco de dados PostgreSQL
+                using (var connection = new NpgsqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    // Exclui um usuário da tabela
+                    using (var command = new NpgsqlCommand("DELETE FROM censo.usuarios WHERE id = @id", connection))
+                    {
+                        // Adiciona parâmetro para o ID à consulta SQL
+                        command.Parameters.AddWithValue("@id", id);
 
                         // Executa a consulta e verifica se alguma linha foi afetada
                         var rowsAffected = command.ExecuteNonQuery();

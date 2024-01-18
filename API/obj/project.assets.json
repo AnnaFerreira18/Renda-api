@@ -613,11 +613,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Websis\\API\\API\\API\\API.csproj",
+      "projectUniqueName": "C:\\Users\\Websis\\Documents\\GitHub\\Renda-api\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "C:\\Users\\Websis\\API\\API\\API\\API.csproj",
+      "projectPath": "C:\\Users\\Websis\\Documents\\GitHub\\Renda-api\\API\\API.csproj",
       "packagesPath": "C:\\Users\\Websis\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Websis\\API\\API\\API\\obj\\",
+      "outputPath": "C:\\Users\\Websis\\Documents\\GitHub\\Renda-api\\API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Websis\\AppData\\Roaming\\NuGet\\NuGet.Config",
